@@ -1,14 +1,14 @@
 package com.recordshop.catalog;
 
 import com.recordshop.catalog.domain.*;
-import com.recordshop.catalog.domain.Record;
+import com.recordshop.catalog.domain.record.Record;
+import com.recordshop.catalog.domain.record.RecordRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import java.math.BigDecimal;
-import java.security.Security;
 import java.util.ArrayList;
 
 @SpringBootApplication

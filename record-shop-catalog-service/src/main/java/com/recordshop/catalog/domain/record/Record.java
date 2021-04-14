@@ -1,5 +1,7 @@
-package com.recordshop.catalog.domain;
+package com.recordshop.catalog.domain.record;
 
+import com.recordshop.catalog.domain.Artist;
+import com.recordshop.catalog.domain.Genre;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
