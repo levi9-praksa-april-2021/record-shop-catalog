@@ -1,4 +1,4 @@
-package com.recordshop.recordshopcatalogservice;
+package com.recordshop.catalog;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

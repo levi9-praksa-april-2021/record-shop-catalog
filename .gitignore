@@ -3,3 +3,4 @@
 target
 *.patch
 .env
+out/
