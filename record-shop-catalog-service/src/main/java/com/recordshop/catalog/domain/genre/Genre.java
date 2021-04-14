@@ -1,4 +1,4 @@
-package com.recordshop.catalog.domain;
+package com.recordshop.catalog.domain.genre;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

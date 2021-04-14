@@ -1,6 +1,9 @@
 package com.recordshop.catalog;
 
-import com.recordshop.catalog.domain.*;
+import com.recordshop.catalog.domain.artist.Artist;
+import com.recordshop.catalog.domain.artist.ArtistRepository;
+import com.recordshop.catalog.domain.genre.Genre;
+import com.recordshop.catalog.domain.genre.GenreRepository;
 import com.recordshop.catalog.domain.record.Record;
 import com.recordshop.catalog.domain.record.RecordRepository;
 import org.springframework.boot.CommandLineRunner;

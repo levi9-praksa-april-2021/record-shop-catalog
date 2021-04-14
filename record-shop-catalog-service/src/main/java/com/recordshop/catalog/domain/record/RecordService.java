@@ -1,10 +1,7 @@
 package com.recordshop.catalog.domain.record;
 
-import com.recordshop.catalog.domain.ArtistRepository;
-import com.recordshop.catalog.domain.GenreRepository;
-import com.recordshop.catalog.domain.record.Record;
-import com.recordshop.catalog.domain.record.RecordRepository;
-import com.recordshop.catalog.domain.record.RecordSearch;
+import com.recordshop.catalog.domain.artist.ArtistRepository;
+import com.recordshop.catalog.domain.genre.GenreRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
