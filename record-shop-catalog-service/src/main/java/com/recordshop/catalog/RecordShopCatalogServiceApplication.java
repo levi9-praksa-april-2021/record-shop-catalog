@@ -13,6 +13,10 @@ import org.springframework.context.annotation.Bean;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+import static io.github.perplexhub.rsql.RSQLJPASupport.*;
 
 @SpringBootApplication
 public class RecordShopCatalogServiceApplication {
@@ -35,6 +39,13 @@ public class RecordShopCatalogServiceApplication {
 			r.addGenre(g);
 
 			r = recordRepository.save(r);
+
+			Map<String, String> propertyPathMapper = new HashMap<>();
+			propertyPathMapper.put("album", "record.album");
+
+
+			int size = recordRepository.findAll(toSpecification("album=='alb';genres.name=='a'")).size();
+			System.out.println(size);
 		};
 	}
 }

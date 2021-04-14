@@ -31,15 +31,9 @@ public class RecordController {
 
     @GetMapping(path="")
     public ResponseEntity<RecordsDTO> getRecords(
-            @RequestParam(name="album", required = false) String album,
-            @RequestParam(name="genre", required = false) String genre,
-            @RequestParam(name="artist", required = false) String artist
+            @RequestParam(name="filter", required = false) String filter
     ) {
-        RecordSearch search = new RecordSearch()
-                .withAlbum(album)
-                .withGenre(genre)
-                .withArtist(artist);
-        return ResponseEntity.ok(makeGetRecordsResponse(recordService.getRecords(search)));
+        return ResponseEntity.ok(makeGetRecordsResponse(recordService.getRecords(filter)));
     }
 
     private RecordsDTO makeGetRecordsResponse(List<Record> records) {
