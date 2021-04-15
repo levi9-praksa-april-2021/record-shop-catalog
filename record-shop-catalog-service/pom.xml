@@ -31,6 +31,7 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
+
 		<dependency>
 			<groupId>io.github.perplexhub</groupId>
 			<artifactId>rsql-jpa-spring-boot-starter</artifactId>

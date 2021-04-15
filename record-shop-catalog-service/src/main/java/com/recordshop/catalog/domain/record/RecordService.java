@@ -3,9 +3,7 @@ package com.recordshop.catalog.domain.record;
 import com.recordshop.catalog.domain.artist.ArtistRepository;
 import com.recordshop.catalog.domain.genre.GenreRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,7 +23,11 @@ public class RecordService {
         return recordRepository.findById(recordId);
     }
 
-    public List<Record> getRecords(String filter) {
-        return recordRepository.findAll(toSpecification(filter));
+    public List<Record> getRecords(String filter) throws InvalidRecordFilterException {
+        try {
+            return recordRepository.findAll(toSpecification(filter));
+        } catch (InvalidDataAccessApiUsageException e) {
+            throw new InvalidRecordFilterException("Filter invalid: " + filter);
+        }
     }
 }

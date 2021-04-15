@@ -9,6 +9,5 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface RecordMapper {
     RecordDTO toDto(Record record);
-
     List<RecordDTO> toDtoList(List<Record> records);
 }
