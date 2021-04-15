@@ -1,12 +1,13 @@
 package com.recordshop.catalog.domain.record;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface RecordRepository extends JpaRepository<Record, Long> {
+public interface RecordRepository extends JpaRepository<Record, Long>, JpaSpecificationExecutor<Record> {
 
     @Query("select r from Record r left join r.genres g left join r.artists a where " +
             "(:album is null or r.album like :album) and " +

@@ -14,7 +14,11 @@ import com.recordshop.catalog.web.genre.GenreDTO;
 import com.recordshop.catalog.web.record.RecordDTO;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 
+
+
+import static io.github.perplexhub.rsql.RSQLJPASupport.*;
 
 @Service
 @RequiredArgsConstructor
@@ -27,11 +31,12 @@ public class RecordService {
         return recordRepository.findById(recordId);
     }
 
-    public List<Record> getRecords(RecordSearch recordSearch) {
-        return recordRepository.searchRecords(
-                recordSearch.getAlbum(),
-                recordSearch.getGenre(),
-                recordSearch.getArtist());
+    public List<Record> getRecords(String filter) throws InvalidRecordFilterException {
+        try {
+            return recordRepository.findAll(toSpecification(filter));
+        } catch (InvalidDataAccessApiUsageException e) {
+            throw new InvalidRecordFilterException("Filter invalid: " + filter);
+        }
     }
     
     public RecordDTO save(RecordDTO recordDTO) {

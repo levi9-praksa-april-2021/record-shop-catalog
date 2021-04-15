@@ -31,6 +31,13 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
+
+		<dependency>
+			<groupId>io.github.perplexhub</groupId>
+			<artifactId>rsql-jpa-spring-boot-starter</artifactId>
+			<version>5.0.10</version>
+		</dependency>
+
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
@@ -43,11 +50,13 @@
 			<optional>true</optional>
 		</dependency>
 
+		<!-- DTO Mapping -->
 		<dependency>
 			<groupId>org.mapstruct</groupId>
 			<artifactId>mapstruct</artifactId>
 			<version>${org.mapstruct.version}</version>
 		</dependency>
+
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

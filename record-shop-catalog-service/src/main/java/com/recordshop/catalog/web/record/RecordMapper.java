@@ -9,6 +9,5 @@ import com.recordshop.catalog.domain.record.Record;
 @Mapper(componentModel = "spring")
 public interface RecordMapper {
     RecordDTO toDto(Record record);
-
     List<RecordDTO> toDtoList(List<Record> records);
 }

@@ -4,3 +4,5 @@ target
 *.patch
 .env
 out/
+.settings/
+.project
