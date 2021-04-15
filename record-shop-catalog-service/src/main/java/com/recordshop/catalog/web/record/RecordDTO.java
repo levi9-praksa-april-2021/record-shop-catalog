@@ -1,5 +1,6 @@
 package com.recordshop.catalog.web.record;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.recordshop.catalog.web.artist.ArtistDTO;
 import com.recordshop.catalog.web.genre.GenreDTO;
 import lombok.Data;

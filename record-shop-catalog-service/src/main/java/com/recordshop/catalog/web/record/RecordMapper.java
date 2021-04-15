@@ -1,10 +1,10 @@
 package com.recordshop.catalog.web.record;
 
-import com.recordshop.catalog.domain.record.Record;
+import java.util.List;
 
 import org.mapstruct.Mapper;
 
-import java.util.List;
+import com.recordshop.catalog.domain.record.Record;
 
 @Mapper(componentModel = "spring")
 public interface RecordMapper {

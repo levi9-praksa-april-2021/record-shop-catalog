@@ -5,6 +5,7 @@ import com.recordshop.catalog.domain.record.InvalidRecordFilterException;
 import com.recordshop.catalog.domain.record.RecordService;
 import com.recordshop.catalog.domain.record.Record;
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -37,4 +38,18 @@ public class RecordController {
     private RecordsDTO makeRecordsResponse(List<Record> records) {
         return new RecordsDTO(recordMapper.toDtoList(records));
     }
+    
+    @PostMapping(value = "/save", produces = "application/json", consumes = "application/json")
+	public ResponseEntity<RecordDTO> saveRecord(@RequestBody RecordDTO recordDTO)  {
+    	return ResponseEntity.ok(recordService.save(recordDTO));
+	}
+    
+    @GetMapping(value = "/delete")
+	public ResponseEntity<Void> deleteRecord(@RequestParam Long id)  {
+    	recordService.delete(id);
+    	return ResponseEntity.ok().build();
+	}
+    
+    
+    
 }

@@ -3,6 +3,7 @@ package com.recordshop.catalog.domain.artist;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -10,6 +11,7 @@ import javax.persistence.*;
 @Table(name="artist",
         uniqueConstraints = @UniqueConstraint(columnNames = {"first_name", "last_name"}))
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Artist {
