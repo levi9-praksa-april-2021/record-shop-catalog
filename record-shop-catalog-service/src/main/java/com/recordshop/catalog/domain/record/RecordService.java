@@ -1,22 +1,21 @@
 package com.recordshop.catalog.domain.record;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.recordshop.catalog.web.record.CreateRecordRequest;
+import com.recordshop.catalog.web.record.UpdateRecordRequest;
+import lombok.NonNull;
 import org.springframework.stereotype.Service;
 import com.recordshop.catalog.domain.artist.Artist;
 import com.recordshop.catalog.domain.artist.ArtistRepository;
 import com.recordshop.catalog.domain.genre.Genre;
 import com.recordshop.catalog.domain.genre.GenreRepository;
-import com.recordshop.catalog.web.artist.ArtistDTO;
-import com.recordshop.catalog.web.genre.GenreDTO;
-import com.recordshop.catalog.web.record.RecordDTO;
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 
 
+import javax.persistence.EntityNotFoundException;
 
 import static io.github.perplexhub.rsql.RSQLJPASupport.*;
 
@@ -27,7 +26,7 @@ public class RecordService {
     private final ArtistRepository artistRepository;
     private final GenreRepository genreRepository;
 
-    public Optional<Record> findById(Long recordId) {
+    public Optional<Record> findById(@NonNull Long recordId) {
         return recordRepository.findById(recordId);
     }
 
@@ -38,75 +37,63 @@ public class RecordService {
             throw new InvalidRecordFilterException("Filter invalid: " + filter);
         }
     }
-    
-    public RecordDTO save(RecordDTO recordDTO) {
-    	
-    	Record record = new Record();
-    	
-    	boolean isUpdate = recordDTO.getId() != null;
-		if (isUpdate) {
-			record = recordRepository.getOne(recordDTO.getId());
-			
-		} else {
-			record.setId(null);
-			record.setArchived(false);
-		}
-		
-		record.setTitle(recordDTO.getTitle());
-		record.setAlbum(recordDTO.getAlbum());
-		record.setPrice(recordDTO.getPrice());
-		record.setStock(recordDTO.getStock());
-		
-		
-		if (isUpdate) {
-			for (Artist artist : new ArrayList<>(record.getArtists())) {
-				record.getArtists().remove(artist);
-			}
-		}
-		if (recordDTO.getArtists() != null) {
-			List<Artist> artists = new ArrayList<>();
-			for (ArtistDTO artistDTO : recordDTO.getArtists()) {
-				Artist artist = artistRepository.getOne(artistDTO.getId());
-				
-				artists.add(artist);
-			}
-			record.setArtists(artists);
-		}
-		
-		if (isUpdate) {
-			for (Genre genre : new ArrayList<>(record.getGenres())) {
-				record.getGenres().remove(genre);
-			}
-		}
-		if (recordDTO.getGenres() != null) {
-			List<Genre> genres = new ArrayList<>();
-			for (GenreDTO genreDTO : recordDTO.getGenres()) {
-				Genre genre = genreRepository.getOne(genreDTO.getId());
-				
-				genres.add(genre);
-			}
-			record.setGenres(genres);
-		}
-		
-		recordRepository.saveAndFlush(record);
-		
-		recordDTO.setId(record.getId());
-		
-		return recordDTO;
+
+    public Record create(CreateRecordRequest request) {
+    	List<Artist> artists = findArtists(request.getArtistIds());
+    	List<Genre> genres = findGenres(request.getGenreIds());
+
+     	Record record = Record.builder()
+				.id(null)
+				.title(request.getTitle())
+				.album(request.getAlbum())
+				.price(request.getPrice())
+				.stock(request.getStock())
+				.artists(artists)
+				.genres(genres)
+				.state(Record.RecordState.ACTIVE)
+				.build();
+
+    	return recordRepository.save(record);
+	}
+
+	public Record update(@NonNull Long id, UpdateRecordRequest request) {
+		Record record = recordRepository.findById(id)
+				.orElseThrow(EntityNotFoundException::new);
+
+		List<Artist> artists = findArtists(request.getArtistIds());
+		List<Genre> genres = findGenres(request.getGenreIds());
+
+		record.update(
+				request.getTitle(),
+				request.getAlbum(),
+				request.getPrice(),
+				artists,
+				genres
+		);
+
+		return recordRepository.save(record);
+	}
+
+	private List<Artist> findArtists(List<Long> artistIds) {
+    	if (artistIds == null) return null;
+    	List<Artist> artists = artistRepository.findAllById(artistIds);
+		if (artists.size() < artistIds.size())
+			throw new EntityNotFoundException("One of the artists does not exist");
+		return artists;
+	}
+
+	private List<Genre> findGenres(List<Long> genreIds) {
+    	if (genreIds == null) return null;
+    	List<Genre> genres = genreRepository.findAllById(genreIds);
+		if (genres.size() < genreIds.size())
+			throw new EntityNotFoundException("One of the genres does not exist");
+		return genres;
 	}
     
-    public void delete(Long id) {
-    	
-    	if(id != null) {
-    		Optional<Record> recordOpt = recordRepository.findById(id);
-    		if (recordOpt.isPresent()) {
-    			Record record = recordOpt.get();
-    			record.setArchived(true);
-    			recordRepository.save(record);
-    		}
-    	}
-    	
-    	
+    public void delete(@NonNull Long id) {
+    	Record record = recordRepository.findById(id)
+				.orElseThrow(EntityNotFoundException::new);
+    	record.delete();
+    	recordRepository.save(record);
     }
-    
 }

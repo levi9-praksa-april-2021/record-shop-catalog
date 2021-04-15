@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import javax.persistence.EntityNotFoundException;
+
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @ControllerAdvice("com.recordshop.catalog.web")
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
@@ -17,6 +19,14 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
             InvalidRecordFilterException ex
     ) {
         ApiError error = new ApiError(HttpStatus.BAD_REQUEST, ex.getMessage());
+        return ResponseEntity.status(error.getStatus()).body(error);
+    }
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    protected ResponseEntity<Object> handleEntityNotFound(
+            EntityNotFoundException ex
+    ) {
+        ApiError error = new ApiError(HttpStatus.NOT_FOUND, ex.getMessage());
         return ResponseEntity.status(error.getStatus()).body(error);
     }
 }
