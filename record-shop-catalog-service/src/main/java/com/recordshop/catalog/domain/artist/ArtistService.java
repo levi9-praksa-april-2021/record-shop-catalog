@@ -1,8 +1,10 @@
 package com.recordshop.catalog.domain.artist;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.recordshop.catalog.web.artist.ArtistDTO;
 
 import lombok.RequiredArgsConstructor;
@@ -33,5 +35,13 @@ public class ArtistService {
     	artistDTO.setId(artist.getId());
     	
     	return artistDTO;
-	}	
+	}
+	
+	public List<Artist> getArtists() {
+		return artistRepository.findAll();
+	}
+	
+	public Optional<Artist> findById(Long artistId) {
+		return artistRepository.findById(artistId);
+	}
 }

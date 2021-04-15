@@ -1,5 +1,8 @@
 package com.recordshop.catalog.domain.genre;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.recordshop.catalog.web.genre.GenreDTO;
@@ -31,5 +34,13 @@ public class GenreService {
     	genreDTO.setId(genre.getId());
     	
     	return genreDTO;
+	}
+	
+	public List<Genre> getGenres() {
+		return genreRepository.findAll();
+	}
+	
+	public Optional<Genre> findById(Long genreId) {
+		return genreRepository.findById(genreId);
 	}
 }

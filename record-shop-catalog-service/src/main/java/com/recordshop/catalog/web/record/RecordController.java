@@ -28,6 +28,7 @@ public class RecordController {
 
     private RecordDTO makeGetRecordResponse(Record record) {
         return recordMapper.toDto(record);
+
     }
 
     @GetMapping(path="")
