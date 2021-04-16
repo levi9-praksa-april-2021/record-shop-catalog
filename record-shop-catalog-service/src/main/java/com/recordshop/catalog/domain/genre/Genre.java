@@ -8,14 +8,14 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
 @Table(name="genre")
 @Getter
-@Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class Genre {
@@ -25,4 +25,12 @@ public class Genre {
 
     @Column(name="name", unique = true, nullable = false)
     private String name;
+    
+    public void update(
+            String name
+    ) {
+        if (name != null)
+            this.name = name;     
+    }
 }
+

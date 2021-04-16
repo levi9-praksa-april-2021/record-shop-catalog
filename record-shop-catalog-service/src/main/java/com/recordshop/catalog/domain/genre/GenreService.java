@@ -3,37 +3,41 @@ package com.recordshop.catalog.domain.genre;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
-import com.recordshop.catalog.web.genre.GenreDTO;
+import com.recordshop.catalog.web.genre.CreateGenreRequest;
 
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
 public class GenreService {
 	
-	@Autowired
-	public GenreRepository genreRepository;
+	private final GenreRepository genreRepository;
 	
-	public GenreDTO save(GenreDTO genreDTO) {
+	public Genre create(CreateGenreRequest request) {
     	
-    	Genre genre = new Genre();
+		Genre genre = Genre.builder()
+    			
+    			.id(null)
+    			.name(request.getName())
+    			.build();
     	
-    	boolean isUpdate = genreDTO.getId() != null;
-    	if (isUpdate) {
-			genre = genreRepository.getOne(genreDTO.getId());
-			
-		} else {
-			genre.setId(null);
-		}	
-    	genre.setName(genreDTO.getName());
+    	return genreRepository.save(genre);
+	}
+	
+	public Genre update(@NonNull Long id, CreateGenreRequest request) {
     	
-    	genreRepository.saveAndFlush(genre);
+		Genre genre = genreRepository.findById(id)
+				.orElseThrow(EntityNotFoundException::new);
+
+		genre.update(
+				request.getName()
+		);
     	
-    	genreDTO.setId(genre.getId());
-    	
-    	return genreDTO;
+    	return genreRepository.save(genre);
+
 	}
 	
 	public List<Genre> getGenres() {
