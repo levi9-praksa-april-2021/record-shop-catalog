@@ -34,7 +34,7 @@ public class RecordShopCatalogServiceApplication {
 			Genre g = new Genre(null, "g");
 			g = genreRepository.save(g);
 
-			Record r = new Record(null, "r", "alb", BigDecimal.valueOf(300.0), 10, false, new ArrayList<>(), new ArrayList<>());
+			Record r = new Record(null, "r", "alb", BigDecimal.valueOf(300.0), 10, Record.RecordState.ACTIVE, new ArrayList<>(), new ArrayList<>());
 			r.addArtist(a);
 			r.addGenre(g);
 

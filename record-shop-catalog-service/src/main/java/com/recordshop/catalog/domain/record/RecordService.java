@@ -5,7 +5,6 @@ import java.util.Optional;
 
 import com.recordshop.catalog.web.record.CreateRecordRequest;
 import com.recordshop.catalog.web.record.UpdateRecordRequest;
-import lombok.NonNull;
 import org.springframework.stereotype.Service;
 import com.recordshop.catalog.domain.artist.Artist;
 import com.recordshop.catalog.domain.artist.ArtistRepository;
@@ -16,6 +15,7 @@ import org.springframework.dao.InvalidDataAccessApiUsageException;
 
 
 import javax.persistence.EntityNotFoundException;
+import javax.validation.constraints.NotNull;
 
 import static io.github.perplexhub.rsql.RSQLJPASupport.*;
 
@@ -26,12 +26,13 @@ public class RecordService {
     private final ArtistRepository artistRepository;
     private final GenreRepository genreRepository;
 
-    public Optional<Record> findById(@NonNull Long recordId) {
-        return recordRepository.findById(recordId);
+    public Optional<Record> findById(@NotNull Long recordId) {
+        return recordRepository.findByIdAndActive(recordId);
     }
 
     public List<Record> getRecords(String filter) throws InvalidRecordFilterException {
-        try {
+    	filter += ";state==ACTIVE";
+    	try {
             return recordRepository.findAll(toSpecification(filter));
         } catch (InvalidDataAccessApiUsageException e) {
             throw new InvalidRecordFilterException("Filter invalid: " + filter);
@@ -56,7 +57,7 @@ public class RecordService {
     	return recordRepository.save(record);
 	}
 
-	public Record update(@NonNull Long id, UpdateRecordRequest request) {
+	public Record update(@NotNull Long id, UpdateRecordRequest request) {
 		Record record = recordRepository.findById(id)
 				.orElseThrow(EntityNotFoundException::new);
 
@@ -90,7 +91,7 @@ public class RecordService {
 		return genres;
 	}
     
-    public void delete(@NonNull Long id) {
+    public void delete(@NotNull Long id) {
     	Record record = recordRepository.findById(id)
 				.orElseThrow(EntityNotFoundException::new);
     	record.delete();

@@ -6,8 +6,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface RecordRepository extends JpaRepository<Record, Long>, JpaSpecificationExecutor<Record> {
+
+    @Query("select r from Record r where r.id = :id and r.state = 0")
+    Optional<Record> findByIdAndActive(@Param(value="id") Long id);
 
     @Query("select r from Record r left join r.genres g left join r.artists a where " +
             "(:album is null or r.album like :album) and " +

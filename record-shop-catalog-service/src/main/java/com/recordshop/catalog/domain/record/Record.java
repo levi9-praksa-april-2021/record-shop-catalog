@@ -43,7 +43,7 @@ public class Record {
     @Column(name="stock", nullable = false)
     private int stock;
 
-    @Column(name="archived", nullable = false)
+    @Column(name="state", nullable = false)
     private RecordState state;
 
     public void delete() {

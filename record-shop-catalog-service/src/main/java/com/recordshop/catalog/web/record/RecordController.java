@@ -11,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -40,13 +41,13 @@ public class RecordController {
     }
     
     @PostMapping("")
-	public ResponseEntity<RecordDTO> createRecord(@RequestBody CreateRecordRequest request)  {
+	public ResponseEntity<RecordDTO> createRecord(@Valid @RequestBody CreateRecordRequest request)  {
     	Record record = recordService.create(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(recordMapper.toDto(record));
 	}
 
 	@PutMapping("/{recordId}")
-    public ResponseEntity<RecordDTO> updateRecord(@PathVariable Long recordId, @RequestBody UpdateRecordRequest request) {
+    public ResponseEntity<RecordDTO> updateRecord(@PathVariable Long recordId, @Valid @RequestBody UpdateRecordRequest request) {
         Record record = recordService.update(recordId, request);
         return ResponseEntity.status(HttpStatus.OK).body(recordMapper.toDto(record));
     }
