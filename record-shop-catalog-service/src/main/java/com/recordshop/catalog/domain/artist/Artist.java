@@ -1,9 +1,9 @@
 package com.recordshop.catalog.domain.artist;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Table(name="artist",
         uniqueConstraints = @UniqueConstraint(columnNames = {"first_name", "last_name"}))
 @Getter
-@Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class Artist {
@@ -24,4 +24,14 @@ public class Artist {
 
     @Column(name="last_name", nullable = false)
     private String lastName;
+    
+    public void update(
+            String firstName,
+            String lastName
+    ) {
+        if (firstName != null)
+            this.firstName = firstName;
+        if (lastName != null)
+            this.lastName = lastName;
+    }
 }

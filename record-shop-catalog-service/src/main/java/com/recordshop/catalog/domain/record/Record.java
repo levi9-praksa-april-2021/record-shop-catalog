@@ -16,18 +16,17 @@ import javax.persistence.Table;
 import com.recordshop.catalog.domain.artist.Artist;
 import com.recordshop.catalog.domain.genre.Genre;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
+@Getter
+@AllArgsConstructor
+@Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name="record")
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
 public class Record {
+    public enum RecordState { ACTIVE, DELETED }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -44,8 +43,12 @@ public class Record {
     @Column(name="stock", nullable = false)
     private int stock;
 
-    @Column(name="archived", nullable = false)
-    private boolean archived;
+    @Column(name="state", nullable = false)
+    private RecordState state;
+
+    public void delete() {
+        state = RecordState.DELETED;
+    }
 
     @ManyToMany
     @JoinTable(name = "record_artist",
@@ -67,5 +70,24 @@ public class Record {
 
     public void addGenre(Genre genre) {
         genres.add(genre);
+    }
+
+    public void update(
+            String title,
+            String album,
+            BigDecimal price,
+            List<Artist> artists,
+            List<Genre> genres
+    ) {
+        if (title != null)
+            this.title = title;
+        if (album != null)
+            this.album = album;
+        if (price != null)
+            this.price = price;
+        if (artists != null)
+            this.artists = artists;
+        if (genres != null)
+            this.genres = genres;
     }
 }
