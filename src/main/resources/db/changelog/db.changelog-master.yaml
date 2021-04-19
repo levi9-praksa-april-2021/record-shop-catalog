@@ -1,0 +1,3 @@
+databaseChangeLog:
+ - include: 
+      file: classpath*:db/changelog/changes/20210419144021-initial-schema.yaml 

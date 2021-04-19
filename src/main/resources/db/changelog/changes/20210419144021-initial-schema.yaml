@@ -1,0 +1,197 @@
+databaseChangeLog:
+- changeSet:
+    id: 1618836028211-1
+    author: Mateo (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: artistPK
+            name: id
+            type: BIGINT
+        - column:
+            constraints:
+              nullable: false
+            name: first_name
+            type: VARCHAR(255)
+        - column:
+            constraints:
+              nullable: false
+            name: last_name
+            type: VARCHAR(255)
+        tableName: artist
+- changeSet:
+    id: 1618836028211-2
+    author: Mateo (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: genrePK
+            name: id
+            type: BIGINT
+        - column:
+            constraints:
+              nullable: false
+            name: name
+            type: VARCHAR(255)
+        tableName: genre
+- changeSet:
+    id: 1618836028211-3
+    author: Mateo (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: recordPK
+            name: id
+            type: BIGINT
+        - column:
+            constraints:
+              nullable: false
+            name: album
+            type: VARCHAR(255)
+        - column:
+            constraints:
+              nullable: false
+            name: price
+            type: DECIMAL(19, 2)
+        - column:
+            constraints:
+              nullable: false
+            name: state
+            type: VARCHAR(255)
+        - column:
+            constraints:
+              nullable: false
+            name: stock
+            type: INT
+        - column:
+            constraints:
+              nullable: false
+            name: title
+            type: VARCHAR(255)
+        tableName: record
+- changeSet:
+    id: 1618836028211-4
+    author: Mateo (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+            name: record_id
+            type: BIGINT
+        - column:
+            constraints:
+              nullable: false
+            name: artist_id
+            type: BIGINT
+        tableName: record_artist
+- changeSet:
+    id: 1618836028211-5
+    author: Mateo (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+            name: record_id
+            type: BIGINT
+        - column:
+            constraints:
+              nullable: false
+            name: genre_id
+            type: BIGINT
+        tableName: record_genre
+- changeSet:
+    id: 1618836028211-6
+    author: Mateo (generated)
+    changes:
+    - addUniqueConstraint:
+        columnNames: name
+        constraintName: UC_GENRENAME_COL
+        tableName: genre
+- changeSet:
+    id: 1618836028211-7
+    author: Mateo (generated)
+    changes:
+    - addUniqueConstraint:
+        columnNames: title
+        constraintName: UC_RECORDTITLE_COL
+        tableName: record
+- changeSet:
+    id: 1618836028211-8
+    author: Mateo (generated)
+    changes:
+    - addUniqueConstraint:
+        columnNames: first_name, last_name
+        constraintName: UK2mwrgyy2e2qy8lvb6fkw2l0d
+        tableName: artist
+- changeSet:
+    id: 1618836028211-9
+    author: Mateo (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: genre_id
+        baseTableName: record_genre
+        constraintName: FK1n26ebpji49u2a4on8jmro1yr
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: genre
+        validate: true
+- changeSet:
+    id: 1618836028211-10
+    author: Mateo (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: artist_id
+        baseTableName: record_artist
+        constraintName: FKhncrl15w5fsfa17vnejcsv4b
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: artist
+        validate: true
+- changeSet:
+    id: 1618836028211-11
+    author: Mateo (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: record_id
+        baseTableName: record_genre
+        constraintName: FKpia1ogsd8c5xh5irw5cwsu2mx
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: record
+        validate: true
+- changeSet:
+    id: 1618836028211-12
+    author: Mateo (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: record_id
+        baseTableName: record_artist
+        constraintName: FKtll7v4c1wt83a7v9lc7b3k4rx
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: record
+        validate: true
+
