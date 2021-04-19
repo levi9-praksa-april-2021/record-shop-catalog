@@ -47,4 +47,12 @@ public class GenreService {
 	public Optional<Genre> findById(Long genreId) {
 		return genreRepository.findById(genreId);
 	}
+
+	public List<Genre> findGenres(List<Long> genreIds) {
+		if (genreIds == null) return null;
+		List<Genre> genres = genreRepository.findAllById(genreIds);
+		if (genres.size() < genreIds.size())
+			throw new EntityNotFoundException("One of the genres does not exist");
+		return genres;
+	}
 }

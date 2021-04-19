@@ -3,13 +3,13 @@ package com.recordshop.catalog.domain.record;
 import java.util.List;
 import java.util.Optional;
 
+import com.recordshop.catalog.domain.artist.ArtistService;
+import com.recordshop.catalog.domain.genre.GenreService;
 import com.recordshop.catalog.web.record.CreateRecordRequest;
 import com.recordshop.catalog.web.record.UpdateRecordRequest;
 import org.springframework.stereotype.Service;
 import com.recordshop.catalog.domain.artist.Artist;
-import com.recordshop.catalog.domain.artist.ArtistRepository;
 import com.recordshop.catalog.domain.genre.Genre;
-import com.recordshop.catalog.domain.genre.GenreRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 
@@ -23,15 +23,20 @@ import static io.github.perplexhub.rsql.RSQLJPASupport.*;
 @RequiredArgsConstructor
 public class RecordService {
     private final RecordRepository recordRepository;
-    private final ArtistRepository artistRepository;
-    private final GenreRepository genreRepository;
+
+    private final ArtistService artistService;
+    private final GenreService genreService;
 
     public Optional<Record> findById(@NotNull Long recordId) {
         return recordRepository.findByIdAndActive(recordId);
     }
 
     public List<Record> getRecords(String filter) throws InvalidRecordFilterException {
-    	filter += ";state==ACTIVE";
+    	if (filter == null)
+    		return recordRepository.findAllByState(Record.RecordState.ACTIVE);
+    	if (filter.length() > 0)
+    		filter += ";";
+    	filter += "state==ACTIVE";
     	try {
             return recordRepository.findAll(toSpecification(filter));
         } catch (InvalidDataAccessApiUsageException e) {
@@ -40,8 +45,8 @@ public class RecordService {
     }
 
     public Record create(CreateRecordRequest request) {
-    	List<Artist> artists = findArtists(request.getArtistIds());
-    	List<Genre> genres = findGenres(request.getGenreIds());
+    	List<Artist> artists = artistService.findArtists(request.getArtistIds());
+    	List<Genre> genres = genreService.findGenres(request.getGenreIds());
 
      	Record record = Record.builder()
 				.id(null)
@@ -61,8 +66,8 @@ public class RecordService {
 		Record record = recordRepository.findById(id)
 				.orElseThrow(EntityNotFoundException::new);
 
-		List<Artist> artists = findArtists(request.getArtistIds());
-		List<Genre> genres = findGenres(request.getGenreIds());
+		List<Artist> artists = artistService.findArtists(request.getArtistIds());
+		List<Genre> genres = genreService.findGenres(request.getGenreIds());
 
 		record.update(
 				request.getTitle(),
@@ -73,22 +78,6 @@ public class RecordService {
 		);
 
 		return recordRepository.save(record);
-	}
-
-	private List<Artist> findArtists(List<Long> artistIds) {
-    	if (artistIds == null) return null;
-    	List<Artist> artists = artistRepository.findAllById(artistIds);
-		if (artists.size() < artistIds.size())
-			throw new EntityNotFoundException("One of the artists does not exist");
-		return artists;
-	}
-
-	private List<Genre> findGenres(List<Long> genreIds) {
-    	if (genreIds == null) return null;
-    	List<Genre> genres = genreRepository.findAllById(genreIds);
-		if (genres.size() < genreIds.size())
-			throw new EntityNotFoundException("One of the genres does not exist");
-		return genres;
 	}
     
     public void delete(@NotNull Long id) {

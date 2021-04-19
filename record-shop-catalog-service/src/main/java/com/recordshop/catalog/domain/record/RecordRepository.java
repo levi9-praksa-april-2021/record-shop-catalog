@@ -9,8 +9,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface RecordRepository extends JpaRepository<Record, Long>, JpaSpecificationExecutor<Record> {
+    List<Record> findAllByState(Record.RecordState state);
 
-    @Query("select r from Record r where r.id = :id and r.state = 0")
+    @Query("select r from Record r where r.id = :id and r.state = 'ACTIVE'")
     Optional<Record> findByIdAndActive(@Param(value="id") Long id);
 
     @Query("select r from Record r left join r.genres g left join r.artists a where " +

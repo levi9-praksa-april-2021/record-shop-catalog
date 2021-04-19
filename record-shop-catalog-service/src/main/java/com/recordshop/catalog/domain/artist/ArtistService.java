@@ -50,4 +50,12 @@ public class ArtistService {
 	public Optional<Artist> findById(Long artistId) {
 		return artistRepository.findById(artistId);
 	}
+
+	public List<Artist> findArtists(List<Long> artistIds) {
+		if (artistIds == null) return null;
+		List<Artist> artists = artistRepository.findAllById(artistIds);
+		if (artists.size() < artistIds.size())
+			throw new EntityNotFoundException("One of the artists does not exist");
+		return artists;
+	}
 }

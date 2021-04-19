@@ -18,7 +18,6 @@ import com.recordshop.catalog.domain.artist.ArtistRepository;
 import com.recordshop.catalog.domain.genre.Genre;
 import com.recordshop.catalog.domain.genre.GenreRepository;
 import com.recordshop.catalog.domain.record.Record;
-import com.recordshop.catalog.domain.record.Record.RecordState;
 import com.recordshop.catalog.domain.record.RecordRepository;
 
 @SpringBootApplication
@@ -37,11 +36,7 @@ public class RecordShopCatalogServiceApplication {
 			Genre g = new Genre(null, "g");
 			g = genreRepository.save(g);
 
-<<<<<<< Updated upstream
 			Record r = new Record(null, "r", "alb", BigDecimal.valueOf(300.0), 10, Record.RecordState.ACTIVE, new ArrayList<>(), new ArrayList<>());
-=======
-			Record r = new Record(null, "r", "alb", BigDecimal.valueOf(300.0), 10, RecordState.ACTIVE, new ArrayList<>(), new ArrayList<>());
->>>>>>> Stashed changes
 			r.addArtist(a);
 			r.addGenre(g);
 
