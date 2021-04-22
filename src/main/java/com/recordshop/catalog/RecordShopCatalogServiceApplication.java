@@ -1,26 +1,18 @@
 package com.recordshop.catalog;
 
 
-import static io.github.perplexhub.rsql.RSQLJPASupport.toSpecification;
-
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Bean;
 
-import com.recordshop.catalog.domain.artist.Artist;
 import com.recordshop.catalog.domain.artist.ArtistRepository;
-import com.recordshop.catalog.domain.genre.Genre;
 import com.recordshop.catalog.domain.genre.GenreRepository;
-import com.recordshop.catalog.domain.record.Record;
 import com.recordshop.catalog.domain.record.RecordRepository;
 
 @SpringBootApplication
+@EnableEurekaClient
 public class RecordShopCatalogServiceApplication {
 
 	public static void main(String[] args) {
