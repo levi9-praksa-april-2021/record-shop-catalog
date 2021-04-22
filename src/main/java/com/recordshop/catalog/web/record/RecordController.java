@@ -51,6 +51,12 @@ public class RecordController {
         Record record = recordService.update(recordId, request);
         return ResponseEntity.status(HttpStatus.OK).body(recordMapper.toDto(record));
     }
+	
+	@PutMapping("/updateStock/{recordId}/{stock}")
+    public ResponseEntity<RecordDTO> updateStock(@PathVariable Long recordId, @PathVariable Integer stock) {
+        Record record = recordService.updateStock(recordId, stock);
+        return ResponseEntity.status(HttpStatus.OK).body(recordMapper.toDto(record));
+    }
     
     @DeleteMapping("/{recordId}")
 	public ResponseEntity<Void> deleteRecord(@PathVariable Long recordId)  {

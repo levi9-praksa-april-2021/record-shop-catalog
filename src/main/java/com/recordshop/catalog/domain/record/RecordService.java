@@ -79,6 +79,14 @@ public class RecordService {
 
 		return recordRepository.save(record);
 	}
+	
+	public Record updateStock(@NotNull Long id, @NotNull Integer stock) {
+		Record record = recordRepository.findById(id)
+				.orElseThrow(EntityNotFoundException::new);
+		
+		record.updateStock(stock);		
+		return recordRepository.save(record);
+	}
     
     public void delete(@NotNull Long id) {
     	Record record = recordRepository.findById(id)
