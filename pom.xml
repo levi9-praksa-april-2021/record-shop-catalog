@@ -54,7 +54,7 @@
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
 		</dependency>
-
+		
 		<!-- Security -->
 		<dependency>
 				<groupId>org.springframework.boot</groupId>
@@ -197,5 +197,8 @@
 			</plugin>
 		</plugins>
 	</build>
+<<<<<<< HEAD
 
+=======
+>>>>>>> 1ab59f394cb99a657774d17563dde36c0dc08d6d
 </project>
