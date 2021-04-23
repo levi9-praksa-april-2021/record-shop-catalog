@@ -83,4 +83,8 @@ public class Record {
         if (genres != null)
             this.genres = genres;
     }
+    
+    public void updateStock(int stock) {
+    	this.stock = stock;
+    }
 }
