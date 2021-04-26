@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,25 +26,29 @@ public class ArtistController {
 	
 	private final ArtistService artistService ;
 	private final ArtistMapper artistMapper;
-	
+
+	@PreAuthorize("hasAuthority('SCOPE_catalog.read')")
 	@GetMapping("/{artistId}")
 	public ResponseEntity<ArtistDTO> getArtist(@PathVariable Long artistId) {
 		return artistService.findById(artistId)
 				.map(artist -> ResponseEntity.ok(makeGetArtistResponse(artist)))
 				.orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
 	}
-	
+
+	@PreAuthorize("hasAuthority('SCOPE_catalog.read')")
 	@GetMapping("")
 	public ResponseEntity<List<ArtistDTO>> getArtists() {
 		return ResponseEntity.ok(artistMapper.map(artistService.getArtists()));
 	}
-	
+
+	@PreAuthorize("hasAuthority('SCOPE_catalog.write')")
 	@PostMapping("")
 	public ResponseEntity<ArtistDTO> createArtist(@RequestBody CreateArtistRequest request)  {
 		Artist artist = artistService.create(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(artistMapper.toDto(artist));
 	}
-	
+
+	@PreAuthorize("hasAuthority('SCOPE_catalog.write')")
 	@PutMapping("/{artistId}")
 	public ResponseEntity<ArtistDTO> updateArtist(@PathVariable Long artistId, @RequestBody CreateArtistRequest request)  {
 		Artist artist = artistService.update(artistId, request);

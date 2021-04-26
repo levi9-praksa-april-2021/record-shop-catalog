@@ -1,6 +1,7 @@
 package com.recordshop.catalog.config;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
@@ -10,9 +11,9 @@ public class ResourceServerConfig {
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.antMatcher("/records/**")
+        http
                 .authorizeRequests()
-                .antMatchers("/records/**").access("hasAuthority('SCOPE_catalog.read')")
+                .anyRequest().authenticated()
                 .and()
                 .oauth2ResourceServer()
                 .jwt();
